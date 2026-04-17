@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan1el Vídeo Maker</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1a1208;
+    --amber: #e8a020;
+    --rust: #c94a1a;
+    --cream: #f5e9cc;
+    --muted: #8c7a5e;
+    --dark: #2d1f0a;
+    --card: rgba(255,255,255,0.03);
+    --border: rgba(232,160,32,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--cream);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,18,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+  }
+  .nav-logo em { color: var(--amber); font-style: italic; }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--amber); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    background: linear-gradient(160deg, #2d1a05 0%, #1a0d02 60%, #0d0601 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232,160,32,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,160,32,0.12);
+    border: 1px solid rgba(232,160,32,0.3);
+    color: var(--amber);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: '📱'; font-size: 13px; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 9vw, 80px);
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 12px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em { color: var(--amber); font-style: italic; }
+  .hero-sub {
+    font-size: clamp(14px, 2vw, 17px);
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .hero-cta:hover { opacity: 0.88; transform: translateY(-2px); }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 80px 20px;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .section-label .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+  .section-label span {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(232,160,32,0.2);
+  }
+
+  /* ── SOBRE ── */
+  .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .sobre-text {
+    grid-column: 1 / -1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cream);
+    font-weight: 300;
+    position: relative;
+    overflow: hidden;
+  }
+  .sobre-text::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--amber);
+    border-radius: 16px 0 0 16px;
+  }
+  .sobre-text strong { color: var(--amber); font-weight: 500; }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: rgba(232,160,32,0.35); }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── EQUIPAMENTOS ── */
+  .equip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .equip-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.2s;
+  }
+  .equip-card:hover { border-color: rgba(232,160,32,0.35); }
+  .equip-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .equip-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+  .equip-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  /* ── HABILIDADES ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .skill-card:hover { border-color: rgba(232,160,32,0.35); }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--rust);
+    border-radius: 14px 0 0 14px;
+  }
+  .skill-card.amber::before { background: var(--amber); }
+  .skill-card.green::before { background: #6aaa5e; }
+  .skill-card.purple::before { background: #9b7ed1; }
+  .skill-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .skill-desc {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* ── PORTFÓLIO ── */
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+  }
+  .project-card:hover { border-color: rgba(232,160,32,0.35); }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .project-header:hover { background: rgba(255,255,255,0.03); }
+  .project-thumb-mini {
+    width: 64px; height: 64px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2d1a05, #1a0d02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .project-header-info { flex: 1; }
+  .project-tag {
+    display: inline-block;
+    background: rgba(232,160,32,0.12);
+    color: var(--amber);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .project-chevron {
+    font-size: 16px;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .project-card.open .project-chevron { transform: rotate(180deg); color: var(--amber); }
+
+  .project-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease;
+  }
+  .project-card.open .project-body { max-height: 1400px; }
+  .project-body-inner {
+    border-top: 1px solid var(--border);
+    padding: 20px 22px;
+  }
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+  .project-video {
+    width: 100%;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* ── DISPONIBILIDADE ── */
+  .avail-box {
+    background: linear-gradient(135deg, rgba(232,160,32,0.1), rgba(201,74,26,0.08));
+    border: 1px solid rgba(232,160,32,0.25);
+    border-radius: 16px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .avail-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(106,170,94,0.12);
+    border: 1px solid rgba(106,170,94,0.3);
+    color: #8fcf84;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .avail-dot::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #6aaa5e;
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .avail-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 32px);
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .avail-box h2 em { color: var(--amber); font-style: italic; }
+  .avail-box p {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 400px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .contact-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--amber);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--cream);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border-radius: 4px;
+    border: 1px solid rgba(245,233,204,0.2);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: rgba(245,233,204,0.5); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  footer span { color: var(--amber); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 540px) {
+    .nav-links { display: none; }
+    .sobre-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .equip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Dan<em>1</em>el</div>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#equipamentos">Setup</a></li>
+    <li><a href="#habilidades">habilidades</a></li>
+    
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Vídeo Maker Mobile</div>
+  <h1>Dan<em>1</em>el<br>Vídeo Maker</h1>
+  <p class="hero-sub">Edição e Criação de vídeos com qualidade profissional. Do planejamento à edição final.</p>
+  <a href="#contato" class="hero-cta">Solicitar orçamento</a>
+</div>
+
+<!-- PORTFÓLIO -->
+<section id="portfolio" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label"><div class="dot"></div><span>Portfólio</span></div>
+
+    <!-- CARD 1 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Vídeo Promocional</span>
+          <div class="project-title">Projeto: personal trainer — Cliente #01</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Vídeo de conteúdo educativo para personal trainer, gravado em academia. Produção completa com Blackmagic Cam, iluminação com ring light e bastão LED, estabilização com gimbal, áudio com microfone lapela e edição com DaVinci Resolve.</p>
+          <div class="project-video">
+            <iframe
+              src="https://www.youtube.com/embed/OE_3vPlriCg"
+              title="Projeto Cliente #01 — Dan1el Vídeo Maker"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="width:100%; aspect-ratio:16/9; display:block;">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- CARD 2 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Conteúdo para YouTube</span>
+          <div class="project-title">Projeto: GTA Online – O Caos como Narrativa #02</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Neste projeto, o objetivo foi capturar a essência frenética do GTA Online através de uma edição ágil e bem-humorada. Utilizando o CapCut, foquei em cortes rápidos e transições que acompanham o ritmo do "caos" descrito no roteiro. O trabalho de pós-produção de áudio foi essencial para equilibrar a narração com os efeitos sonoros explosivos do jogo, garantindo uma imersão total no tema.</p>
+          <div class="project-video">
+            <iframe width="670" height="315" src="https://www.youtube.com/embed/BsKHT-7-lOY?si=IK3P6sn0KEPxde4q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+            <!-- CARD 3 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Conteúdo para YouTube</span>
+          <div class="project-title">Projeto: Análise Retrô – Tarzan (PS2) #03</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Vídeo de análise no estilo documentário, focado em narrativa e nostalgia. A edição foi realizada no CapCut, onde priorizei um ritmo dinâmico e transições que acompanham o storytelling. O projeto incluiu um roteiro autoral e um tratamento de áudio cuidadoso para garantir uma locução clara e profissional, equilibrada com a trilha sonora original do jogo.</p>
+          <div class="project-video">
+            <iframe width="674" height="315" src="https://www.youtube.com/embed/XXkQNcVkwB0?si=V-gQ1lIlZDxCwf3t" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+                <!-- CARD 4 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Conteúdo para YouTube</span>
+          <div class="project-title">Projeto: Devil May Cry 5 (Dante Must Die) #04</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Neste projeto, a narrativa foca-se na pressão psicológica e na paciência necessárias para vencer o modo "Dante Must Die". A edição foi realizada no CapCut, utilizando um ritmo de cortes que alterna entre a tensão do desafio e a clareza da análise técnica. O roteiro foi estruturado para prender a atenção do início ao fim, acompanhado de um tratamento de áudio que destaca a locução e integra os efeitos sonoros do jogo de forma equilibrada.</p>
+          <div class="project-video">
+            <iframe width="674" height="315" src="https://www.youtube.com/embed/DxEC_cCH1XI?si=hsjxAVlkn5L5d6CJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+                    <!-- CARD 5 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Conteúdo para YouTube</span>
+          <div class="project-title">Projeto: A Perfeição do Remake – Resident Evil 4 #05</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Uma análise documental profunda sobre como a Capcom modernizou um clássico. Neste vídeo, o roteiro autoral explora as melhorias no motor gráfico (RE Engine), as mudanças na jogabilidade dinâmica e a nova profundidade narrativa dos personagens. A edição, realizada no CapCut, foi estruturada para manter o ritmo durante mais de 7 minutos, utilizando uma montagem que alterna entre o terror atmosférico e a ação intensa, sempre com um tratamento de áudio que prioriza a clareza da voz e a imersão sonora.</p>
+          <div class="project-video">
+            <iframe width="674" height="315" src="https://www.youtube.com/embed/YOlS3OTQ9XA?si=VyX_XSIDlzUm0n3M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+                        <!-- CARD 6 -->
+    <div class="project-card" onclick="toggleProject(this)">
+      <div class="project-header">
+        <div class="project-thumb-mini">🎬</div>
+        <div class="project-header-info">
+          <span class="project-tag">Conteúdo para YouTube</span>
+          <div class="project-title">Projeto: Hollow Knight fenômeno Indie #06</div>
+        </div>
+        <span class="project-chevron">▼</span>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <p class="project-desc">Neste projeto, explorei a profundidade narrativa de Hollow Knight, focando no "silêncio" e na descoberta como ferramentas de design. O roteiro autoral foi construído para guiar o espectador através de uma reflexão sobre dificuldade e superação, tratando o jogo como uma obra de arte. A edição, realizada no Aligth Motion e CapCut, priorizou uma montagem atmosférica que respeita os momentos de pausa e a intensidade das batalhas, criando uma experiência imersiva e educativa.</p>
+          <div class="project-video">
+            <iframe width="674" height="315" src="https://www.youtube.com/embed/Sv9kj26k4GU?si=LZtlDxu4QCNsPGnZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- CARD VAZIO -->
+    <div class="project-card" style="border-style:dashed; opacity:0.5;">
+      <div class="project-header" style="cursor:default;">
+        <div class="project-thumb-mini" style="font-size:12px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; font-family:'DM Sans',sans-serif;">❓</div>
+        <div class="project-header-info">
+          <span class="project-tag">Em breve</span>
+          <div class="project-title">Sua marca pode estar aqui</div>
+          <div style="font-size:13px; color:var(--muted); font-weight:300; margin-top:4px;">Posições abertas para novos clientes com condições especiais, <em>entre em contato.</em></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container">
+    <div class="section-label"><div class="dot"></div><span>Sobre</span></div>
+    <div class="sobre-grid">
+      <div class="sobre-text">
+        Sou o <strong>Dan1el</strong>, vídeo maker mobile. Cuido de tudo: <strong>roteiro, gravação e edição</strong> — você traz a ideia, eu trago o resultado.<br><br>
+        Meu foco é <strong>vídeo curto</strong>, aquele que segura o dedo da pessoa na tela. Mas também tenho especialidade em <strong>vídeos longos</strong> quando o projeto pede. Áudio feio estraga tudo — por isso faço <strong>tratamento de áudio profissional</strong> em cima de cada entrega.<br><br>
+        Basicamente: se precisa de conteúdo que <strong>atenda as suas expectivas</strong>, fala comigo.
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">📱</div>
+        <div class="stat-label">Mobile</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:26px; padding-top:4px;">Full</div>
+        <div class="stat-label">Do roteiro à edição</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPAMENTOS -->
+<section id="equipamentos" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label"><div class="dot"></div><span>Setup</span></div>
+    <div class="equip-grid">
+      <div class="equip-card">
+        <div class="equip-icon">📱</div>
+        <div>
+          <div class="equip-name">Smartphone Alta Resolução</div>
+          <div class="equip-sub">Câmera principal 4K</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">💻</div>
+        <div>
+          <div class="equip-name">Acer Nitro</div>
+          <div class="equip-sub">Principal ferramenta de edição</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">🎚️</div>
+        <div>
+          <div class="equip-name">Gimbal Estabilizador</div>
+          <div class="equip-sub">Movimentos fluidos</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">🎙️</div>
+        <div>
+          <div class="equip-name">Microfone de Lapela</div>
+          <div class="equip-sub">Com anti-ruído</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">💡</div>
+        <div>
+          <div class="equip-name">Ring Light</div>
+          <div class="equip-sub">Iluminação frontal</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">🔦</div>
+        <div>
+          <div class="equip-name">Bastão de LED</div>
+          <div class="equip-sub">Iluminação direcional</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">✨</div>
+        <div>
+          <div class="equip-name">Mini Fonte de Luz</div>
+          <div class="equip-sub">Fill light de apoio</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <div class="equip-icon">🎥</div>
+        <div>
+          <div class="equip-name">Cage Ulanzi</div>
+          <div class="equip-sub">Proteção e acessórios</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HABILIDADES -->
+<section id="habilidades" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label"><div class="dot"></div><span>Habilidades</span></div>
+    <div class="skills-grid">
+      <div class="skill-card amber">
+        <div class="skill-title">Blackmagic Camera</div>
+        <div class="skill-desc">Captação com controle manual de ISO, obturador, foco e perfis de cor profissionais.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-title">Color Grading</div>
+        <div class="skill-desc">Correção de cor e criação de identidade visual para os vídeos no DaVinci Resolve.</div>
+      </div>
+      <div class="skill-card green">
+        <div class="skill-title">Edição — CapCut</div>
+        <div class="skill-desc">Edição ágil para conteúdo de redes sociais com ritmo, cortes e legendas.</div>
+      </div>
+      <div class="skill-card purple">
+        <div class="skill-title">DaVinci Resolve</div>
+        <div class="skill-desc">Edição não-linear e pós-produção com foco em qualidade cinematográfica.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-title">Iluminação</div>
+        <div class="skill-desc">Composição de luz com ring light, LED e fill para valorizar cada cena.</div>
+      </div>
+      <div class="skill-card amber">
+        <div class="skill-title">Câmera — ISO e Exposição</div>
+        <div class="skill-desc">Controle das configurações manuais para garantir imagem limpa em diferentes ambientes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" style="padding-top:0;">
+  <div class="container">
+    <div class="section-label"><div class="dot"></div><span>Contato</span></div>
+    <div class="avail-box">
+      <div class="avail-dot">Disponível para projetos</div>
+      <h2>Vamos criar algo<br><em>juntos?</em></h2>
+      <p>Tem um projeto em mente? Entre em contato e vamos conversar sobre como posso ajudar a sua marca a se destacar.</p>
+      <div class="contact-btns">
+        <a href="https://wa.me/5563991389543" class="btn-primary" target="_blank">💬 WhatsApp</a>
+        <a href="https://instagram.com/dan1eltav" class="btn-ghost" target="_blank">📷 Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Feito com 🎬 por <span>Dan1el Vídeo Maker</span> · Vídeo Maker Mobile
+</footer>
+
+<script>
+  function toggleProject(card) {
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
