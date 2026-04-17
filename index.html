@@ -384,15 +384,24 @@
     font-weight: 300;
     margin-bottom: 16px;
   }
+    /* CONTAINER DO VÍDEO */
   .project-video {
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 16/9;
-    display: block;
+    width: 100%;
+    aspect-ratio: 16/9; /* Força a caixa a ter a proporção correta */
     background: #000;
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
   }
+
+  /* O VÍDEO EM SI (IFRAME) */
+  .project-video iframe {
+    width: 100% !important;
+    height: 100% !important; /* Faz o vídeo preencher a caixa inteira */
+    display: block;
+    border: none;
+  }
+
 
   /* ── DISPONIBILIDADE ── */
   .avail-box {
